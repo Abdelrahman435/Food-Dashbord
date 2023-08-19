@@ -6,6 +6,4 @@ const {protect} = require('../middleware/protect');
 
 router.post("/login", validate(), adminLogin);
 
-// router.get('/', (req,res)=>{res.send('test')});
-
 module.exports = router;

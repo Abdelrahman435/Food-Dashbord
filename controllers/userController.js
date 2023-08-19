@@ -9,7 +9,7 @@ const app = express();
 async function adminLogin(req, res, next) {
   try {
     const result = await getUser(req.body.email, req.body.password);
-    if (!(req.body.password == result[0].password)) {
+    if (!(await bcrypt.compare(req.body.password, result[0].password))) {
       return res.status(400).json({ msg: "password isn't correct" });
     }
     delete result[0].password;

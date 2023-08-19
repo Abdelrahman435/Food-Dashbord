@@ -1,7 +1,6 @@
 const { body, validationResult } = require('express-validator');
 
 function validate() {
-  //console.log('flag');
   try {
     return [
       body("email")
