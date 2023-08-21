@@ -1,50 +1,58 @@
 const mysql = require("mysql");
 
-// const db_config = {
-//   host: "bykoxpxsybzqzwzbmww8-mysql.services.clever-cloud.com",
-//   user: "u4ptjd6izxqtlgbq",
-//   password: "rQq9qDfi7NrQAFtGg1LW",
-//   database: "bykoxpxsybzqzwzbmww8",
-//   port: "3306",
-// };
+const db_config = {
+  host: "bynz8ffsh8hxzo6i79rp-mysql.services.clever-cloud.com",
+  user: "uimqgwitzguanugd",
+  password: "BhTGse6vgRW24QoNey19",
+  database: "bynz8ffsh8hxzo6i79rp",
+  port: "3306",
+};
 
+////////////////////////////////////////////////////////////////////
 // let connection = mysql.createConnection({
-//   host: "bykoxpxsybzqzwzbmww8-mysql.services.clever-cloud.com",
-//   user: "u4ptjd6izxqtlgbq",
-//   password: "rQq9qDfi7NrQAFtGg1LW",
-//   database: "bykoxpxsybzqzwzbmww8",
+//   host: "bynz8ffsh8hxzo6i79rp-mysql.services.clever-cloud.com",
+//   user: "uimqgwitzguanugd",
+//   password: "BhTGse6vgRW24QoNey19",
+//   database: "bynz8ffsh8hxzo6i79rp",
 //   port: "3306",
 // });
 
-let connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "food app",
+// let connection = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "food app",
+//   port: "3306",
+// });
+
+// connection.connect((err) => {
+//   if (err) throw err;
+//   console.log("DB CONNECTED");
+// });
+////////////////////////////////////////////////////////////////////
+
+function handleDisconnect() {
+  connection = mysql.createConnection({
+    host: "bynz8ffsh8hxzo6i79rp-mysql.services.clever-cloud.com",
+    user: "uimqgwitzguanugd",
+    password: "BhTGse6vgRW24QoNey19",
+    database: "bynz8ffsh8hxzo6i79rp",
     port: "3306",
-});
+  });
+  connection.connect((err) => {
+    if (err) throw err;
+    console.log("DB CONNECTED");
+  });
 
-connection.connect((err)=>{
-    if(err) throw err;
-    console.log("DB Connected");
-})
+  connection.on("error", function (err) {
+    console.log("db error", err);
+    if (err.code === "PROTOCOL_CONNECTION_LOST") {
+      handleDisconnect();
+    } else {
+      throw err;
+    }
+  });
+}
 
-// function handleDisconnect() {
-//   connection = mysql.createConnection(db_config);
-//   connection.connect((err) => {
-//     if (err) throw err;
-//     console.log("DB CONNECTED");
-//   });
-
-//   connection.on("error", function (err) {
-//     console.log("db error", err);
-//     if (err.code === "PROTOCOL_CONNECTION_LOST") {
-//       handleDisconnect();
-//     } else {
-//       throw err;
-//     }
-//   });
-// }
-
-// handleDisconnect();
+handleDisconnect();
 module.exports = { connection };

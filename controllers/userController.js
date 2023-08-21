@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const express = require("express");
 const app = express();
+const userServices = require("../services/userServices");
 
 async function adminLogin(req, res, next) {
   try {
@@ -34,4 +35,20 @@ async function adminLogin(req, res, next) {
   }
 }
 
-module.exports = { adminLogin };
+
+exports.getAllAdmins = async (req, res) => {
+  console.log("here")
+  try{
+    const result = await userServices.getAllAdmins();
+    res
+    .status(200)
+    .json({data: result[0]["COUNT(*)"]})
+  }
+  catch(error){
+    res.status(400).json({msg: "something went wrong"})
+  }
+};
+
+
+
+module.exports = {...module.exports, adminLogin };
