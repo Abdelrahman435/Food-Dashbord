@@ -73,13 +73,28 @@ exports.addDish = async (req, res) => {
 
 exports.updateDish = async (req, res) => {
   try {
-    const result = await dishServices.updateDish(req.body, req.params.id);
-    if (result.length == 0) {
-      return res.status(400).send("Dish not updated");
+    let result;
+    let dishe = await dishServices.getDish(req.params.id);
+    if (!dishe[0]) {
+      return res.status(404).json({ errors: ["Dishe not found"] });
     }
-    res.status(200).send("updated successfully");
-  } catch (error) {
-    throw error;
+    // const data = {};
+    if (fs.existsSync('../upload' + dishe[0].image)) {
+      fs.unlinkSync('../upload/' + dishe[0].image);
+    }
+    if (req.file) {
+      req.body.image = req.file.filename;
+  }
+
+    result = await userServices.editProfile(req.body, req.params.id);
+
+    if (result.length == 0) {
+      return res.status(400).send("dishe not updated");
+    }
+    return res.status(200).send("updated successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: "error updating dishe" });
   }
 };
 

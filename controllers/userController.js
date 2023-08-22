@@ -6,6 +6,7 @@ const passport = require("passport");
 const express = require("express");
 const app = express();
 const userServices = require("../services/userServices");
+const fs = require("fs")
 
 async function adminLogin(req, res, next) {
   try {
@@ -46,6 +47,35 @@ exports.getAllAdmins = async (req, res) => {
   }
   catch(error){
     res.status(400).json({msg: "something went wrong"})
+  }
+};
+
+exports.editProfile = async (req, res) => {
+  try {
+    let result;
+    let admin = await userServices.getAdmin(req.params.id);
+    if (!admin[0]) {
+      return res.status(404).json({ errors: ["Admin not found"] });
+    }
+    // const data = {};
+    if (fs.existsSync('../upload' + admin[0].image)) {
+      fs.unlinkSync('../upload/' + admin[0].image);
+    }
+    if (req.file) {
+      req.body.image = req.file.filename;
+  }
+
+    // Object.assign(data, req.body); // Append req.body to data object
+
+    result = await userServices.editProfile(req.body, req.params.id);
+
+    if (result.length == 0) {
+      return res.status(400).send("profile not updated");
+    }
+    return res.status(200).send("updated successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: "error updating profile" });
   }
 };
 
