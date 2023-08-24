@@ -24,3 +24,8 @@ exports.getComeCustomers = async () => {
   );
   return customers.length;
 };
+
+exports.getAllCustomers = async () => {
+  const query = util.promisify(connection.query).bind(connection);
+  return await query("select id from users where role = 'USER'")
+}
