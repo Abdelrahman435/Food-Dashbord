@@ -38,3 +38,15 @@ exports.comeBackCustomer = async (req, res) => {
     res.status(500).send("internal error: " + err);
   }
 };
+
+exports.getAllCustomers = async (req, res) => {
+  try{
+    const result = await services.getAllCustomers();
+    res
+    .status(200)
+    .json(result.length)
+  }
+  catch(error){
+    res.status(400).json({msg: "something went wrong"})
+  }
+};

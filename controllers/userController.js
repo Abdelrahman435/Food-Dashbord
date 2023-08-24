@@ -28,6 +28,7 @@ async function adminLogin(req, res, next) {
       req.headers["Authorization"] = `Bearer ${token}`;
       next();
     });
+    await userServices.changeStatus(id,'ACTIVE')
     res.status(200).json({ data: result, token });
   } catch (error) {
     return res.status(400).json({
@@ -38,12 +39,9 @@ async function adminLogin(req, res, next) {
 
 
 exports.getAllAdmins = async (req, res) => {
-  console.log("here")
   try{
     const result = await userServices.getAllAdmins();
-    res
-    .status(200)
-    .json({data: result[0]["COUNT(*)"]})
+    res.status(200).json(result)
   }
   catch(error){
     res.status(400).json({msg: "something went wrong"})
@@ -78,6 +76,15 @@ exports.editProfile = async (req, res) => {
     res.status(400).json({ msg: "error updating profile" });
   }
 };
+
+exports.logout = async (req, res) => {
+  try{
+    await userServices.changeStatus(req.params.id,'IN-ACTIVE');
+    res.status(200).json({ msg: "logout successfully" });
+  }catch(err){
+    res.status(400).json({ msg: "error logging out" });
+  }
+}
 
 
 

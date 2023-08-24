@@ -5,5 +5,6 @@ const customer = require("../controllers/customerController")
 router.get('/new', customer.newCustomer)
 router.get('/old', customer.oldCustomer)
 router.get('/come', customer.comeBackCustomer)
+router.get('/allCustomers', customer.getAllCustomers)
 
 module.exports = router
