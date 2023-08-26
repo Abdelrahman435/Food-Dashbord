@@ -13,7 +13,7 @@ exports.getAllDishes = async (req, res) => {
       return res.status(404).send("No items found..");
     }
     result.map(
-      (res) => (res.image = "http://" + req.hostname + ":3000/" + res.image)
+      (res) => (res.image = "http://" + req.hostname + res.image)
     );
     res.status(200).send(result);
   } catch (error) {
@@ -27,7 +27,7 @@ exports.getDish = async (req, res) => {
     if (result.length == 0) {
       return res.status(404).send("No items found..");
     }
-    result[0].image = "http://" + req.hostname + ":3000/" + result[0].image;
+    result[0].image = "http://" + req.hostname + result[0].image;
     res.status(200).send(result);
   } catch (error) {
     throw error;
