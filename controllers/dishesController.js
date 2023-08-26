@@ -13,7 +13,7 @@ exports.getAllDishes = async (req, res) => {
       return res.status(404).send("No items found..");
     }
     result.map(
-      (res) => (res.image = "https://" + req.hostname +"/"+ res.image)
+      (res) => (res.image = "https://" + req.hostname + "/" + res.image)
     );
     res.status(200).send(result);
   } catch (error) {
@@ -79,12 +79,12 @@ exports.updateDish = async (req, res) => {
       return res.status(404).json({ errors: ["Dishe not found"] });
     }
     // const data = {};
-    if (fs.existsSync('../upload' + dishe[0].image)) {
-      fs.unlinkSync('../upload/' + dishe[0].image);
+    if (fs.existsSync("../upload" + dishe[0].image)) {
+      fs.unlinkSync("../upload/" + dishe[0].image);
     }
     if (req.file) {
       req.body.image = req.file.filename;
-  }
+    }
 
     result = await userServices.editProfile(req.body, req.params.id);
 
