@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const express = require("express");
 const dishServices = require("../services/dishesServices");
+const fs = require("fs")
 
 exports.getAllDishes = async (req, res) => {
   try {
@@ -86,7 +87,7 @@ exports.updateDish = async (req, res) => {
       req.body.image = req.file.filename;
     }
 
-    result = await userServices.editProfile(req.body, req.params.id);
+    result = await dishServices.updateDish(req.body, req.params.id);
 
     if (result.length == 0) {
       return res.status(400).send("dishe not updated");
