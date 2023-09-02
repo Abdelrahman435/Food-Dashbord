@@ -8,10 +8,15 @@ const upload = require("../middleware/uploadFiles");
 
 router.post("/login", validate(), adminLogin);
 
-router.get("/admins/count", userController.getAllAdmins);
+router.get("/admins/count", protect, userController.getAllAdmins);
 
-router.patch("/:id", upload.single("image"), userController.editProfile);
+router.patch(
+  "/:id",
+  protect,
+  upload.single("image"),
+  userController.editProfile
+);
 
-router.post("/logout/:id", userController.logout)
+router.post("/logout/:id", protect, userController.logout);
 
 module.exports = router;

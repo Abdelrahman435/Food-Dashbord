@@ -8,19 +8,17 @@ const {
   getAllDishes,
   getDish,
   updateDish,
-  deleteDish
+  deleteDish,
 } = require("../controllers/dishesController");
 const upload = require("../middleware/uploadFiles");
 // router.use("/", validate());
 
+router.use(protect);
+router.route("/").get(getAllDishes).post(upload.single("image"), addDish);
+
 router
-  .route("/")
-  .get(getAllDishes)
-  .post(upload.single("image"), addDish)
-
-router.route("/:id")
-.get(getDish).patch(upload.single("image"), updateDish)
-.delete(deleteDish);
-;
-
+  .route("/:id")
+  .get(getDish)
+  .patch(upload.single("image"), updateDish)
+  .delete(deleteDish);
 module.exports = router;

@@ -5,6 +5,7 @@ const { validate } = require("../validation/login_validation");
 const { protect } = require("../middleware/protect");
 const reviews = require("../controllers/reviewsController");
 
+router.use(protect);
 router.route("/").get(reviews.getReviews);
 router.post("/:userId/:productId", reviews.addReview)
 
