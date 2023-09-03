@@ -21,10 +21,10 @@ async function protect(req,res, next){
     token = req.headers.authorization.split(' ')[1];
     const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-    console.log(decoded.userId);
+    // console.log(decoded.userId);
 
     const currentUser = await getUser(decoded.userId[0].id);
-    console.log(currentUser)
+    // console.log(currentUser)
     if(!currentUser){
         return res.status(401).send("the user that belong to this token does no longer exist");
     }
