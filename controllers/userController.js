@@ -31,6 +31,7 @@ async function adminLogin(req, res, next) {
     await userServices.changeStatus(id,'ACTIVE')
     res.status(200).json({ data: result, token });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({
       msg: "The email address or mobile number you entered isn't connected to an account.",
     });
